@@ -1,0 +1,20 @@
+{
+  "name": "newsaggregator",
+  "version": "1.0.0",
+  "description": "\"Backend for News Aggregator\"",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Tushar Saurabh",
+  "license": "ISC",
+  "dependencies": {
+    "@postlight/mercury-parser": "^2.1.0",
+    "body-parser": "^1.19.0",
+    "date-fns": "^1.30.1",
+    "express": "^4.17.1",
+    "lokijs": "^1.5.6",
+    "request": "^2.88.0",
+    "xml2js": "^0.4.19"
+  }
+}
