@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const news = require('./news');
 const article = require('./article');
+const n = require('./newsType');
 
 const app = express();
 
@@ -13,6 +14,11 @@ app.use((req,res,next) => {
     res.setHeader('Access-Control-Allow-Methods',"GET, POST, OPTIONS");
     next()
 })
+
+app.get('/api/newstype',(req,res,next) => {
+    let val = n.newsType();
+    res.status(200).json(val);
+});
 
 app.get('/api/news/:type',(req,res,next) => {
     console.log('Paramas',req.params['type']);
