@@ -4,6 +4,7 @@ const parse = require('date-fns/parse');
 const format = require('date-fns/format');
 const isYesterday = require('date-fns/is_yesterday')
 const isToday = require('date-fns/is_today');
+const allNews = require('./newsList');
 
 urlList = {
     'politics':['https://indianexpress.com/print/front-page/feed/'],
@@ -13,12 +14,13 @@ urlList = {
 }
 
 module.exports.request = function(type){
-    links = urlList[type];
+    //links = urlList[type];
+    links = allNews.newsList[type];
     collectedNews = [];
 
     return new Promise((resolve,reject) => {
         for (let i = 0; i < links.length; i++){
-            request(links[i],(err, res, body) => {
+            request(links[i]['url'],(err, res, body) => {
                 if (err) { reject({data: null,status: err}); }
                 parseString(body, function (err, result) {
                     let temp = result['rss']['channel'][0];
@@ -29,7 +31,7 @@ module.exports.request = function(type){
                         link = encodeURIComponent(temp['item'][j]['link'][0]);
                         pubDate = format(parse(temp['item'][j]['pubDate'][0]),'YYYY-MM-DD');
                         if (isToday(pubDate) || isYesterday(pubDate)){
-                            collectedNews.push({title: title,link: link, pubDate: pubDate})
+                            collectedNews.push({title: title,link: link, pubDate: pubDate, news: links[i]['news']})
                         }
                     }
                     console.log(`value of ${i} and ${links.length - 1}`)
@@ -39,6 +41,5 @@ module.exports.request = function(type){
                 });
             });
         }
-    })
-    
+    })   
 }
